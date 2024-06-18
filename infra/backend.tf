@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket  = "nexasphere-tf"
+    bucket  = var.backend_s3
     key     = "prod_terraform.tfstate"
-    region  = "eu-central-1"
+    region  = var.region
     encrypt = true
   }
 }

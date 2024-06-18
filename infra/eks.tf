@@ -10,8 +10,7 @@ resource "aws_eks_cluster" "nexasphere-eks" {
   # Otherwise, EKS will not be able to properly delete EKS managed EC2 infrastructure such as Security Groups.
   depends_on = [
     aws_subnet.nexasphere-nodes-subnet,
-    aws_iam_role_policy_attachment.nexasphere-main-AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.nexasphere-main-AmazonEKSVPCResourceController,
+    aws_iam_role.nexasphere-root
   ]
 }
 
@@ -35,8 +34,6 @@ resource "aws_eks_node_group" "nexasphere-nodes" {
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
   depends_on = [
     aws_subnet.nexasphere-nodes-subnet,
-    aws_iam_role_policy_attachment.nexasphere-node-manager-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.nexasphere-node-manager-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.nexasphere-node-manager-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role.nexasphere-node-manager
   ]
 }
