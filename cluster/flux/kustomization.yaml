@@ -1,3 +1,15 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/achirazi/NexaSphere
+  branch: main
+  secretRef:
+    name: flux-system
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
@@ -5,7 +17,7 @@ metadata:
   namespace: flux
 spec:
   interval: 10m0s
-  path: ./cluster/nexasphere
+  path: ./cluster/app
   prune: true
   sourceRef:
     kind: GitRepository

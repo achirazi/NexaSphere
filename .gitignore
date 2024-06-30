@@ -1,2 +1,4 @@
 infra/.terraform
 infra/.terraform.lock.hcl
+.vscode
+.vscode/*

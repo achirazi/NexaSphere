@@ -20,22 +20,23 @@ resource "kubernetes_daemonset" "cloudwatch_agent" {
 
       spec {
         service_account_name = "cloudwatch-agent"
-        containers {
+
+        container {
           name  = "cloudwatch-agent"
           image = "amazon/cloudwatch-agent:latest"
 
           resources {
-            limits {
+            limits = {
               cpu    = "200m"
               memory = "200Mi"
             }
-            requests {
+            requests = {
               cpu    = "100m"
               memory = "100Mi"
             }
           }
 
-          volume_mounts {
+          volume_mount {
             name       = "config-volume"
             mount_path = "/etc/cloudwatch-agent/config.json"
             sub_path   = "config.json"
@@ -43,7 +44,7 @@ resource "kubernetes_daemonset" "cloudwatch_agent" {
           }
         }
 
-        volumes {
+        volume {
           name = "config-volume"
           config_map {
             name = "cloudwatch-agent-config"
@@ -53,6 +54,8 @@ resource "kubernetes_daemonset" "cloudwatch_agent" {
     }
   }
 }
+
+
 
 resource "kubernetes_config_map" "cloudwatch_agent_config" {
   metadata {
@@ -118,22 +121,23 @@ resource "kubernetes_daemonset" "cloudwatch_logs" {
 
       spec {
         service_account_name = "cloudwatch-logs"
-        containers {
+
+        container {
           name  = "cloudwatch-logs"
           image = "amazon/cloudwatch-agent:latest"
 
           resources {
-            limits {
+            limits = {
               cpu    = "200m"
               memory = "200Mi"
             }
-            requests {
+            requests = {
               cpu    = "100m"
               memory = "100Mi"
             }
           }
 
-          volume_mounts {
+          volume_mount {
             name       = "config-volume"
             mount_path = "/etc/cloudwatch-agent/config.json"
             sub_path   = "config.json"
@@ -141,7 +145,7 @@ resource "kubernetes_daemonset" "cloudwatch_logs" {
           }
         }
 
-        volumes {
+        volume {
           name = "config-volume"
           config_map {
             name = "cloudwatch-logs-config"
@@ -151,6 +155,7 @@ resource "kubernetes_daemonset" "cloudwatch_logs" {
     }
   }
 }
+
 
 resource "kubernetes_config_map" "cloudwatch_logs_config" {
   metadata {
