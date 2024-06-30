@@ -49,7 +49,7 @@ resource "aws_iam_role" "cloudwatch_agent_role" {
       {
         Effect = "Allow",
         Principal = {
-          Service = "ec2.amazonaws.com"
+          Service: ["ec2.amazonaws.com"]
         },
         Action = "sts:AssumeRole"
       },
@@ -77,7 +77,7 @@ resource "aws_iam_role" "cloudwatch_logs_role" {
       {
         Effect = "Allow",
         Principal = {
-          Service = "ec2.amazonaws.com"
+          Service: ["ec2.amazonaws.com"]
         },
         Action = "sts:AssumeRole"
       },
