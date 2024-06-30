@@ -16,6 +16,15 @@ resource "aws_subnet" "nexasphere-nodes-subnet" {
   vpc_id            = aws_vpc.nexaspherevpc.id
 }
 
+resource "aws_internet_gateway" "nexasphere-gw" {
+  vpc_id = aws_vpc.dev-vpc.id
+}
+
+resource "aws_nat_gateway" "nexasphere-natgw" {
+  subnet_id     = aws_subnet.nexasphere-nodes-subnet[0].id
+  depends_on = [aws_internet_gateway.nexasphere-gw]
+}
+
 resource "aws_security_group" "nexasphere-security-group" {
   name        = "nexasphere-sec-group"
   description = "Security group used to whitelist IPs for cluster access"
