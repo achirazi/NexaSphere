@@ -5,6 +5,7 @@ metadata:
   labels:
     app: gitops-demo
   name: gitops-demo
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -30,6 +31,7 @@ metadata:
   labels:
     app: gitops-demo
   name: gitops-demo
+  namespace: default
 spec:
   ports:
   - name: app-ports
