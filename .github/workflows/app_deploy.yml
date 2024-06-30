@@ -34,7 +34,7 @@ jobs:
 
       - name: Install flux
         run: |
-          curl -s https://fluxcd.io/install.sh | sudo bash \
+          curl -s https://fluxcd.io/install.sh \
           flux bootstrap git \
             --url=https://git-codecommit.us-west-2.amazonaws.com/v1/repos/gitops \
             --username=achirazi \
