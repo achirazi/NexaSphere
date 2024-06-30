@@ -26,20 +26,20 @@ jobs:
 
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --region us-east-1 --name your-cluster-name
+          aws eks update-kubeconfig --region eu-central-1 --name nexasphere-cluster
 
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-      - name: Deploy using Helm
-        run: |
-          helm upgrade --install my-microservice-app ./helm/my-microservice-app \
-            --namespace default \
-            --set image.repository=my-repo/my-microservice-app \
-            --set image.tag=${{ github.sha }} \
-            --set replicaCount=2
+      # - name: Deploy using Helm
+      #   run: |
+      #     helm upgrade --install flux ./cluster/flux \
+      #       --namespace default \
+      #       --set image.repository=my-repo/my-microservice-app \
+      #       --set image.tag=${{ github.sha }} \
+      #       --set replicaCount=2
 
-      - name: Verify deployment
-        run: |
-          kubectl rollout status deployment/my-microservice-app
+      # - name: Verify deployment
+      #   run: |
+      #     kubectl rollout status deployment/my-microservice-app
