@@ -1,6 +1,3 @@
-variable "access_key" {}
-variable "secret_key" {}
-
 variable "region" {
   type        = string
   description = "Region in which resources are deployed"
