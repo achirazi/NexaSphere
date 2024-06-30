@@ -47,12 +47,23 @@ resource "aws_iam_role" "cloudwatch_agent_role" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow",
+        Action    = "sts:AssumeRole",
+        Effect    = "Allow",
         Principal = {
-          Service: ["ec2.amazonaws.com"]
-        },
-        Action = "sts:AssumeRole"
-      },
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "cloudwatch_agent_policy" {
+  name        = "CloudWatchAgentPolicy"
+  description = "A policy for CloudWatch agent"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
       {
         Effect = "Allow",
         Action = [
@@ -68,6 +79,11 @@ resource "aws_iam_role" "cloudwatch_agent_role" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "cloudwatch_agent_policy_attachment" {
+  role       = aws_iam_role.cloudwatch_agent_role.name
+  policy_arn = aws_iam_policy.cloudwatch_agent_policy.arn
+}
+
 resource "aws_iam_role" "cloudwatch_logs_role" {
   name = "CloudWatchLogsRole"
 
@@ -75,12 +91,23 @@ resource "aws_iam_role" "cloudwatch_logs_role" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow",
+        Action    = "sts:AssumeRole",
+        Effect    = "Allow",
         Principal = {
-          Service: ["ec2.amazonaws.com"]
-        },
-        Action = "sts:AssumeRole"
-      },
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "cloudwatch_logs_policy" {
+  name        = "CloudWatchLogsPolicy"
+  description = "A policy for CloudWatch agent"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
       {
         Effect = "Allow",
         Action = [
@@ -93,4 +120,9 @@ resource "aws_iam_role" "cloudwatch_logs_role" {
       }
     ]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
+  role       = aws_iam_role.cloudwatch_logs_role.name
+  policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
 }
