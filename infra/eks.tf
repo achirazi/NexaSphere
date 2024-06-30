@@ -32,7 +32,7 @@ resource "aws_eks_node_group" "nexasphere-nodes" {
     max_unavailable = 1
   }
 
-  ami_type  = "ami-04f1b917806393faa"
+  ami_type  = "AL2_x86_64"
   instance_types = ["t3.medium"]
 
   force_update_version = true
