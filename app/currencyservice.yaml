@@ -87,3 +87,4 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: currencyservice
+  namespace: microservices
