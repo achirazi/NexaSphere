@@ -4,7 +4,7 @@ resource "aws_eks_cluster" "nexasphere-eks" {
 
   vpc_config {
     subnet_ids             = [for s in var.list_eks : aws_subnet.nexasphere-nodes-subnet[s].id]
-    endpoint_public_access = False
+    endpoint_public_access = false
   }
 
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
