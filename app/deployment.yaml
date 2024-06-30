@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: gitops-demo
+  name: gitops-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitops-demo
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gitops-demo
+    spec:
+      containers:
+      - image: bibhas2/gitops-demo-webapp
+        name: gitops-demo
+        resources: {}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: gitops-demo
+  name: gitops-demo
+spec:
+  ports:
+  - name: app-ports
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: gitops-demo
+  type: NodePort
