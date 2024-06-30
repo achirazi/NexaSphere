@@ -73,7 +73,7 @@ resource "kubernetes_config_map" "cloudwatch_agent_config" {
       "metrics": {
         "namespace": "EKS/Pods",
         "append_dimensions": {
-          "ClusterName": "${aws_eks_cluster.nexasphere-eks.name}"
+          "ClusterName": "${module.eks.cluster_name}"
         },
         "aggregation_dimensions": [["InstanceId", "InstanceType"], ["AutoScalingGroupName"], []],
         "metrics_collected": {
@@ -169,11 +169,11 @@ resource "kubernetes_config_map" "cloudwatch_logs_config" {
       "logs": {
         "logs_collected": {
           "kubernetes": {
-            "cluster_name": "${aws_eks_cluster.nexasphere-eks.name}",
+            "cluster_name": "${module.eks.cluster_name}",
             "types": [
               {
                 "type": "container_insights",
-                "log_group_name": "/aws/containerinsights/${aws_eks_cluster.nexasphere-eks.name}/application"
+                "log_group_name": "/aws/containerinsights/${module.eks.cluster_name}/application"
               }
             ]
           }

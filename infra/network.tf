@@ -1,56 +1,26 @@
-resource "aws_vpc" "nexaspherevpc" {
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "3.14.2"
 
-  cidr_block = local.cidr_block
+  name = "nexasphere"
 
-  tags = {
-    Name  = var.vpc_name
-    Owner = var.owner
-  }
-}
+  cidr = "10.0.0.0/16"
+  azs  = slice(data.aws_availability_zones.available.names, 0, 3)
 
-resource "aws_subnet" "nexasphere-nodes-subnet" {
-  count = 4
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  public_subnets  = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
 
-  availability_zone = data.aws_availability_zones.available.names[count.index % 2]
-  cidr_block        = cidrsubnet(aws_vpc.nexaspherevpc.cidr_block, 8, count.index)
-  vpc_id            = aws_vpc.nexaspherevpc.id
-}
+  enable_nat_gateway   = true
+  single_nat_gateway   = true
+  enable_dns_hostnames = true
 
-resource "aws_internet_gateway" "nexasphere-gw" {
-  vpc_id = aws_vpc.nexaspherevpc.id
-}
-
-resource "aws_nat_gateway" "nexasphere-natgw" {
-  subnet_id     = aws_subnet.nexasphere-nodes-subnet[0].id
-  depends_on = [aws_internet_gateway.nexasphere-gw]
-}
-
-resource "aws_security_group" "nexasphere-security-group" {
-  name        = "nexasphere-sec-group"
-  description = "Security group used to whitelist IPs for cluster access"
-  vpc_id      = aws_vpc.nexaspherevpc.id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "TCP"
-    cidr_blocks = local.allowed_ips
-    description = "Ingress rule for SSH access of whitelisted IPs"
+  public_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/elb"                      = 1
   }
 
-  egress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "TCP"
-    cidr_blocks = local.allowed_ips
-    description = "Egress rule for SSH access of whitelisted IPs"
-  }
-
-  egress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "HTTP"
-    cidr_blocks = local.allowed_ips
-    description = "Egress rule for HTTP access of whitelisted IPs"
+  private_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb"             = 1
   }
 }

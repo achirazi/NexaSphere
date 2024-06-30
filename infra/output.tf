@@ -1,7 +1,19 @@
-output "endpoint" {
-  value = aws_eks_cluster.nexasphere-eks.endpoint
+output "cluster_endpoint" {
+  description = "Endpoint for EKS control plane"
+  value       = module.eks.cluster_endpoint
 }
 
-output "kubeconfig-certificate-authority-data" {
-  value = aws_eks_cluster.nexasphere-eks.certificate_authority[0].data
+output "cluster_security_group_id" {
+  description = "Security group ids attached to the cluster control plane"
+  value       = module.eks.cluster_security_group_id
+}
+
+output "region" {
+  description = "AWS region"
+  value       = var.region
+}
+
+output "cluster_name" {
+  description = "Kubernetes Cluster Name"
+  value       = module.eks.cluster_name
 }
