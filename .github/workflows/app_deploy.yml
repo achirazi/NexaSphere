@@ -32,13 +32,11 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-      - name: Install flux
+      - name: Install flux cli
         run: |
-          curl -s https://fluxcd.io/install.sh \
-          flux bootstrap git \
-            --url=https://git-codecommit.us-west-2.amazonaws.com/v1/repos/gitops \
-            --username=achirazi \
-            --password=${{ secrets.T_GITHUB_TOKEN }} \
-            --token-auth=true \
-            --path="./cluster/prd-cluster" \
-            --components-extra=image-reflector-controller,image-automation-controller
+          curl -s https://fluxcd.io/install.sh | bash
+
+
+      - name: Install flux repo
+        run: |
+          flux bootstrap github --owner=achirazi --repository=NexaSphere --branch=working --path=cluster/prd-cluster
