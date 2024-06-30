@@ -39,4 +39,4 @@ jobs:
 
       - name: Install flux repo
         run: |
-          flux bootstrap github --owner=achirazi --repository=NexaSphere --branch=working --path=cluster/prd-cluster --password=${{ secrets.T_GITHUB_TOKEN }} --token-auth=true
+          flux bootstrap github --owner=achirazi --repository=NexaSphere --branch=working --path=cluster/prd-cluster --token=${{ secrets.T_GITHUB_TOKEN }}
