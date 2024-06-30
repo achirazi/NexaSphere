@@ -32,6 +32,11 @@ resource "aws_eks_node_group" "nexasphere-nodes" {
     max_unavailable = 1
   }
 
+  ami_type  = "ami-04f1b917806393faa"
+  instance_types = ["t3.medium"]
+
+  force_update_version = true
+
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
   depends_on = [
