@@ -17,7 +17,7 @@ resource "aws_subnet" "nexasphere-nodes-subnet" {
 }
 
 resource "aws_internet_gateway" "nexasphere-gw" {
-  vpc_id = aws_vpc.dev-vpc.id
+  vpc_id = aws_vpc.nexaspherevpc.id
 }
 
 resource "aws_nat_gateway" "nexasphere-natgw" {
